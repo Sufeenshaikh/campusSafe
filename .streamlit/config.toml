@@ -1,0 +1,11 @@
+[server]
+headless = true
+maxUploadSize = 50
+maxMessageSize = 200
+
+[browser]
+serverAddress = "localhost"
+gatherUsageStats = false
+
+[runner]
+magicEnabled = true
