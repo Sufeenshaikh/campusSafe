@@ -140,7 +140,7 @@ if not st.session_state.chat_history:
         if col.button(
             suggestion,
             key              = f"suggestion_{i}",
-            use_container_width = True
+            width='stretch'
         ):
             st.session_state.chat_history.append({
                 "role":    "user",

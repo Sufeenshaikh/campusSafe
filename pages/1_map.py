@@ -123,7 +123,7 @@ campus_map = build_campus_map(zones)
 # st_folium renders the Folium map inside Streamlit
 st_folium(
     campus_map,
-    use_container_width=True,
+    width='stretch',
     height=500,
     returned_objects=[]   # we don't need click data back
 )

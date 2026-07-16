@@ -137,7 +137,7 @@ if "sos_sent" not in st.session_state:
 # Large red button using custom styling
 sos_pressed = st.button(
     "🆘 SEND SOS ALERT",
-    use_container_width=True,
+    width='stretch',
     type="primary",          # makes it the accent color
     key="sos_button"
 )

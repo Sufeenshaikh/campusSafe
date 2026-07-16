@@ -39,7 +39,7 @@ def show_auth_page():
         email = st.text_input("Email",key = "login_email")
         password = st.text_input("Password",type = "password",key = "login_pass")
 
-        if st.button("Login",use_container_width = True):
+        if st.button("Login", width='stretch'):
             if email.strip() and password.strip():
                  user = login_user(email,password)
                  if user:
@@ -72,7 +72,7 @@ def show_auth_page():
 
         reg_role = st.selectbox("role:",["Student","Admin"],key = "reg_role")
 
-        if st.button("Create Account",use_container_width = True,key = "register_btn"):
+        if st.button("Create Account", width='stretch', key = "register_btn"):
         
              if not all([reg_name, reg_email, reg_password, reg_guardian]):
                   st.error("Please fill in all fields")

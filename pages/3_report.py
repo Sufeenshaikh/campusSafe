@@ -103,7 +103,7 @@ st.write(" ")
 # ── SUBMIT BUTTON ─────────────────────────────────────────────────────────────
 submit = st.button(
     "Submit Report",
-    use_container_width = True,
+    width='stretch',
     type                = "primary"
 )
 
@@ -145,12 +145,16 @@ if submit:
 
     # ── AI Step 3: Store in ChromaDB for RAG ──────────────────────────────────
     if report_id:
-        store_incident_in_rag(
+        try:
+            store_incident_in_rag(
             report_id   = report_id,
             location    = location_name,
             description = description,
             severity    = final_severity
-        )
+           )
+        except Exception:
+            pass
+        
 
     # ── AI Step 4: Update Zone Safety Levels ──────────────────────────────────
     with st.spinner("Updating campus safety map..."):

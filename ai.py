@@ -1,6 +1,7 @@
-import json
 import requests
-import chromadb
+import json
+import os
+import numpy as np
 from textblob import TextBlob
 from datetime import datetime
 from database import (
@@ -16,22 +17,7 @@ OLLAMA_EMBED = "http://localhost:11434/api/embeddings"
 LLM_MODEL = "qwen2.5:3b" #for chat an reasoning
 EMBED_MODEL = "nomic-embed-text" #converts text to vector
 
-# ── CHROMADB
-# PersistentClient : saves vector data to folder o disk
-#remembers incident even after app restarts
-
-class NoOpEmbeddingFunction:
-    def __call__(self, input):
-        return[[0.0]*768 for _ in input]
-    
-    def name(self):
-        return "noop"
-    
-chroma_client = chromadb.PersistentClient(path="./chroma_data")
-incident_collection = chroma_client.get_or_create_collection(
-    name="campus_incidents_v2",
-    embedding_function=NoOpEmbeddingFunction()
-)
+RAG_FILE = "rag_store.json"
 
 def ask_ollama(prompt,system_prompt=None):
     #system_prompt = the role and rules we give AI
@@ -195,71 +181,91 @@ def get_final_severity(description,user_given_severity):
 # then give that information to the AI as context,
 # so the AI answers using real data instead of guessing.
 
+def load_rag_store():
+    if not os.path.exists(RAG_FILE):
+        return []
+    try:
+        with open(RAG_FILE, "r") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+def save_rag_store(store):
+     with open(RAG_FILE, "w") as f:
+        json.dump(store, f)
+
+def cosine_similarity(vec1, vec2):
+
+     v1 = np.array(vec1, dtype=np.float32)
+     v2 = np.array(vec2, dtype=np.float32)
+
+     norm1 = np.linalg.norm(v1)
+     norm2 = np.linalg.norm(v2)
+
+    # Avoid division by zero
+     if norm1 == 0 or norm2 == 0:
+        return 0.0
+
+     return float(np.dot(v1, v2) / (norm1 * norm2))
+
 def store_incident_in_rag(report_id, location, description, severity):
-    # Combine location and description into one searchable text
+    store = load_rag_store()
+    existing_ids = {item["id"] for item in store}
+    if str(report_id) in existing_ids:
+        return
     full_text = f"{location}: {description}"
 
-    # Convert text to vector using nomic-embed-text
+    # Convert to vector
     embedding = get_embedding(full_text)
-
-    # If embedding failed, skip silently
     if embedding is None:
+        print(f"RAG: embedding failed for report {report_id} — skipped")
         return
-    
-    try:
-        incident_collection.add(
-            ids        = [str(report_id)],
-            embeddings = [embedding],
-            documents  = [full_text],
-            metadatas  = [{
-                "location": location,
-                "severity": str(severity),
-                "stored_at": datetime.now().strftime("%Y-%m-%d %H:%M")
-            }]
-        )
-    except Exception:
-        # ID already exists — skip
-        pass
-        
+
+    # Add to store
+    store.append({
+        "id":        str(report_id),
+        "text":      full_text,
+        "embedding": embedding,
+        "location":  location,
+        "severity":  str(severity)
+    })
+
+    save_rag_store(store)
+    print(f"RAG: stored report {report_id} — {location}")
+
 def load_all_reports_into_rag():
-    try:
-        reports    = get_all_reports()
-        stored_ids = set(incident_collection.get()["ids"])
-        count      = 0
+    reports    = get_all_reports()
+    store      = load_rag_store()
+    stored_ids = {item["id"] for item in store}
+    count      = 0
 
-        for report in reports:
-            if str(report["id"]) not in stored_ids:
-                store_incident_in_rag(
-                    report_id   = report["id"],
-                    location    = report["location_name"],
-                    description = report["description"],
-                    severity    = report["severity"]
-                )
-                count += 1
+    print(f"RAG: checking {len(reports)} reports...")
 
-        print(f"RAG: {count} reports processed.")
-    except Exception:
-        print("RAG: ChromaDB unavailable — using SQLite search instead.")
+    for report in reports:
+        if str(report["id"]) not in stored_ids:
+            store_incident_in_rag(
+                report_id   = report["id"],
+                location    = report["location_name"],
+                description = report["description"],
+                severity    = report["severity"]
+            )
+            count += 1
 
+    print(f"RAG: {count} new reports added to rag_store.json")
 
-#Finds the most relevant past incidents for a given query
-# Uses semantic search — finds incidents with similar MEANING,not just matching words.
-
-def search_past_incidents(query,n_results = 3):
+def sql_keyword_search(query, n_results=3):
     try:
         from database import get_conn
-        conn = get_conn()
+        conn  = get_conn()
 
-        # Extract meaningful words — skip short words
         words = [
             w.strip("?.,!") for w in query.lower().split()
             if len(w.strip("?.,!")) > 3
         ]
 
         if not words:
-            # No useful keywords — return most recent reports
             rows = conn.execute(
-                """SELECT location_name, description, severity
+                """SELECT location_name, description
                    FROM incident_reports
                    ORDER BY reported_at DESC
                    LIMIT ?""",
@@ -271,25 +277,23 @@ def search_past_incidents(query,n_results = 3):
                 for r in rows
             ]
 
-        # Match any keyword in location or description
         conditions = []
         params     = []
         for word in words:
             conditions.append(
-                "(LOWER(location_name) LIKE ? OR LOWER(description) LIKE ?)"
+                "(LOWER(location_name) LIKE ? "
+                "OR LOWER(description) LIKE ?)"
             )
             params.extend([f"%{word}%", f"%{word}%"])
 
-        query_sql = f"""
-            SELECT location_name, description, severity
-            FROM incident_reports
-            WHERE {' OR '.join(conditions)}
-            ORDER BY severity DESC, reported_at DESC
-            LIMIT ?
-        """
-        params.append(n_results)
-
-        rows = conn.execute(query_sql, params).fetchall()
+        rows = conn.execute(
+            f"""SELECT location_name, description
+                FROM incident_reports
+                WHERE {' OR '.join(conditions)}
+                ORDER BY severity DESC, reported_at DESC
+                LIMIT ?""",
+            params + [n_results]
+        ).fetchall()
         conn.close()
 
         if rows:
@@ -298,12 +302,12 @@ def search_past_incidents(query,n_results = 3):
                 for r in rows
             ]
 
-        # No matches — return most severe recent reports as fallback
+        # No keyword matches — return most recent reports
         conn = get_conn()
         rows = conn.execute(
-            """SELECT location_name, description, severity
+            """SELECT location_name, description
                FROM incident_reports
-               ORDER BY severity DESC, reported_at DESC
+               ORDER BY reported_at DESC
                LIMIT ?""",
             (n_results,)
         ).fetchall()
@@ -314,8 +318,43 @@ def search_past_incidents(query,n_results = 3):
         ]
 
     except Exception as e:
-        print(f"search_past_incidents error: {e}")
+        print(f"SQL search error: {e}")
         return []
+    
+def search_past_incidents(query, n_results=3):
+    store = load_rag_store()
+
+    if store:
+        # Try vector search
+        query_embedding = get_embedding(query)
+
+        if query_embedding is not None:
+            # Score every stored incident
+            scored = []
+            for item in store:
+                try:
+                    score = cosine_similarity(
+                        query_embedding,
+                        item["embedding"]
+                    )
+                    scored.append((score, item["text"]))
+                except Exception:
+                    continue
+
+            if scored:
+                # Sort highest similarity first
+                scored.sort(key=lambda x: x[0], reverse=True)
+
+                top = scored[:n_results]
+                print(
+                    f"RAG vector search: top scores = "
+                    f"{[round(s, 3) for s, _ in top]}"
+                )
+                return [text for score, text in top]
+
+    # Fallback to SQL keyword search
+    print("RAG: using SQL keyword search fallback")
+    return sql_keyword_search(query, n_results)
 
 def tool_check_zone_safety(zone_name):
     

@@ -101,7 +101,7 @@ col1, col2 = st.columns([3, 1])
 with col2:
     if st.button(
         "Generate AI Briefing",
-        use_container_width = True
+        width='stretch'
     ):
         with st.spinner("Asking Ollama..."):
             try:
@@ -166,7 +166,7 @@ with chart_col1:
         fig_bar.update_traces(
             textposition = "outside"
         )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
 
 # Chart 2: Severity Distribution (Pie chart)
 with chart_col2:
@@ -209,7 +209,7 @@ with chart_col2:
             legend        = dict(orientation="h", yanchor="bottom",
                                  y=-0.3, xanchor="center", x=0.5)
         )
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie, width='stretch')
 
 # ROW 4: ZONE STATUS
 st.write("---")
@@ -349,6 +349,6 @@ st.write("---")
 
 col1, col2 = st.columns([4, 1])
 with col2:
-    if st.button("Refresh Dashboard", use_container_width=True):
+    if st.button("Refresh Dashboard", width='stretch'):
         st.session_state.ai_summary = None
         st.rerun()

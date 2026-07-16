@@ -84,7 +84,7 @@ new_guardian = st.text_input(
     key         = "new_guardian_email"
 )
 
-if st.button("Save Guardian Email", use_container_width=True):
+if st.button("Save Guardian Email", width='stretch'):
     if not new_guardian:
         st.error("Please enter an email address.")
     elif "@" not in new_guardian:
