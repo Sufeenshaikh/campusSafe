@@ -30,6 +30,119 @@ This was originally built with ChromaDB, a dedicated vector database. Isolated t
 **3. Agent-style Tool Routing**
 Before answering, the AI decides whether a question is about a specific zone's current status or about past incidents, and pulls the relevant live data accordingly before generating its response.
 
+<table>
+  <!-- SECTION 1: MAIN DASHBOARD & ANALYTICS -->
+  <tr>
+    <td colspan="2" align="center"><h3>📊 Section 1: Main Dashboard Overview & Analytics</h3></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>01. Main Dashboard View</b></p>
+      <img width="100%" alt="Main Dashboard View" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>02. Analytics & Reporting</b></p>
+      <img width="100%" alt="Analytics & Reporting" src="https://github.com" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>03. Performance Metrics</b></p>
+      <img width="100%" alt="Performance Metrics" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>04. User Activity Logs</b></p>
+      <img width="100%" alt="User Activity Logs" src="https://github.com" />
+    </td>
+  </tr>
+
+  <!-- SECTION 2: DATA MANAGEMENT & TABLES -->
+  <tr>
+    <td colspan="2" align="center"><h3>⚙️ Section 2: Core Components & Data Management</h3></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>05. Navigation & Status Summary</b></p>
+      <img width="100%" alt="Navigation & Status Summary" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>06. Data Tables & Records</b></p>
+      <img width="100%" alt="Data Tables & Records" src="https://github.com" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>07. Content Filters & Queries</b></p>
+      <img width="100%" alt="Content Filters & Queries" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>08. Document Management Panel</b></p>
+      <img width="100%" alt="Document Management Panel" src="https://github.com" />
+    </td>
+  </tr>
+
+  <!-- SECTION 3: SYSTEM CONFIGURATIONS & OPERATIONS -->
+  <tr>
+    <td colspan="2" align="center"><h3>🛠️ Section 3: Operations & System Settings</h3></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>09. System Configuration</b></p>
+      <img width="100%" alt="System Configuration" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>10. Operational Metrics</b></p>
+      <img width="100%" alt="Operational Metrics" src="https://github.com" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>11. User Profiles & Access</b></p>
+      <img width="100%" alt="User Profiles & Access" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>12. Task Management Tracker</b></p>
+      <img width="100%" alt="Task Management Tracker" src="https://github.com" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>13. Advanced Settings Layout</b></p>
+      <img width="100%" alt="Advanced Settings Layout" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>14. Security & Permissions</b></p>
+      <img width="100%" alt="Security & Permissions" src="https://github.com" />
+    </td>
+  </tr>
+
+  <!-- SECTION 4: ADDITIONAL INTERFACES -->
+  <tr>
+    <td colspan="2" align="center"><h3>💡 Section 4: Secondary Interfaces & Utilities</h3></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>15. Notification Centre</b></p>
+      <img width="100%" alt="Notification Centre" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>16. Full Screen Overview</b></p>
+      <img width="100%" alt="Full Screen Overview" src="https://github.com" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b>17. Audit Logs & History</b></p>
+      <img width="100%" alt="Audit Logs & History" src="https://github.com" />
+    </td>
+    <td align="center">
+      <p><b>18. Help & Support Portal</b></p>
+      <img width="100%" alt="Help & Support Portal" src="https://github.com" />
+    </td>
+  </tr>
+</table>
+
+
 All AI runs locally through [Ollama](https://ollama.com) — no external API calls, no internet dependency, no cost.
 
 ---
