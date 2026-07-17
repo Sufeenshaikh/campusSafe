@@ -49,5 +49,3 @@ All AI runs locally through [Ollama](https://ollama.com) — no external API cal
 | Location | streamlit-geolocation (browser GPS) |
 
 ---
-
-## Project Structure
