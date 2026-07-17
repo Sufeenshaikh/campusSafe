@@ -47,11 +47,12 @@ Before answering, the AI decides whether a question is about a specific zone's c
 
 ## Screenshots
 
-### Login & Registration
+<img width="1920" height="850" alt="Image" src="https://github.com/user-attachments/assets/57cceba2-3001-483c-8cde-daf3c64f0882" />
+<img width="1920" height="867" alt="Image" src="https://github.com/user-attachments/assets/32d9da05-1b04-465d-a59b-fa6044cf41b4" />
 <img width="1920" height="856" alt="Image" src="https://github.com/user-attachments/assets/0b39569a-2458-455a-b987-b31b5b5de088" />
 <img width="1920" height="731" alt="Image" src="https://github.com/user-attachments/assets/dce87883-e38b-45ac-a5b5-4eb0f83a966f" />
 <img width="1920" height="725" alt="Image" src="https://github.com/user-attachments/assets/028fb1e8-392f-4080-a750-7f9e8bca0a45" />
-<img width="1920" height="850" alt="Image" src="https://github.com/user-attachments/assets/57cceba2-3001-483c-8cde-daf3c64f0882" />
-<img width="1920" height="867" alt="Image" src="https://github.com/user-attachments/assets/32d9da05-1b04-465d-a59b-fa6044cf41b4" />
+
+
 
 
