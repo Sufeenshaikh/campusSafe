@@ -50,11 +50,7 @@ Before answering, the AI decides whether a question is about a specific zone's c
 ### Login & Registration
 <img width="1920" height="856" alt="Image" src="https://github.com/user-attachments/assets/0b39569a-2458-455a-b987-b31b5b5de088" />
 <img width="1920" height="731" alt="Image" src="https://github.com/user-attachments/assets/dce87883-e38b-45ac-a5b5-4eb0f83a966f" />
-<img width="1841" height="651" alt="Image" src="https://github.com/user-attachments/assets/03bd2000-3b29-43e9-976c-807902ee86e1" />
 <img width="1920" height="725" alt="Image" src="https://github.com/user-attachments/assets/028fb1e8-392f-4080-a750-7f9e8bca0a45" />
-<img width="1920" height="285" alt="Image" src="https://github.com/user-attachments/assets/7f1274b6-208e-43db-b41c-c2a2a31788f6" />
-<img width="1920" height="873" alt="Image" src="https://github.com/user-attachments/assets/749ddfba-e547-43f8-9f49-bd6ecd4b4d6f" />
-<img width="1920" height="876" alt="Image" src="https://github.com/user-attachments/assets/a20155a7-2ed3-4c8a-b266-dd3ddbe7a6cd" />
 <img width="1920" height="862" alt="Image" src="https://github.com/user-attachments/assets/2bb1b67b-265a-493a-9231-3aa4d4736432" />
 <img width="1904" height="881" alt="Image" src="https://github.com/user-attachments/assets/9d6d6646-73e2-4e69-9bb6-f4fad1f01e94" />
 <img width="1920" height="859" alt="Image" src="https://github.com/user-attachments/assets/7a8ccdec-4b8b-4539-8980-2d689cef7b07" />
