@@ -44,4 +44,8 @@ Before answering, the AI decides whether a question is about a specific zone's c
 | Charts | Plotly |
 | Location | streamlit-geolocation (browser GPS) |
 
----
+
+## Screenshots
+
+### Login & Registration
+<img width="1920" height="856" alt="Image" src="https://github.com/user-attachments/assets/0b39569a-2458-455a-b987-b31b5b5de088" />
