@@ -52,7 +52,6 @@ Before answering, the AI decides whether a question is about a specific zone's c
 <img width="1920" height="731" alt="Image" src="https://github.com/user-attachments/assets/dce87883-e38b-45ac-a5b5-4eb0f83a966f" />
 <img width="1920" height="725" alt="Image" src="https://github.com/user-attachments/assets/028fb1e8-392f-4080-a750-7f9e8bca0a45" />
 <img width="1920" height="850" alt="Image" src="https://github.com/user-attachments/assets/57cceba2-3001-483c-8cde-daf3c64f0882" />
-<img width="1920" height="857" alt="Image" src="https://github.com/user-attachments/assets/c03cb5f7-45bf-43f4-ac20-9e944bd22017" />
 <img width="1920" height="867" alt="Image" src="https://github.com/user-attachments/assets/32d9da05-1b04-465d-a59b-fa6044cf41b4" />
-<img width="1920" height="864" alt="Image" src="https://github.com/user-attachments/assets/09bf0a88-82f5-4255-83ea-d0e8f51703af" />
+
 
