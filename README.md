@@ -1,0 +1,53 @@
+# 🛡️ CampusSafe
+
+AI-powered campus safety web application built for DAVV Indore.
+
+CampusSafe helps students report safety incidents, send SOS alerts to guardians, and ask an AI chatbot for real-time safety guidance — all running locally with a self-built AI layer, no external API dependency.
+
+---
+
+## Features
+
+- **Live Safety Map** — DAVV campus zones color-coded green, orange, or red, updated automatically as new reports come in
+- **SOS Alerts** — one-tap emergency alert using real GPS location, emailed instantly to a guardian
+- **Incident Reporting** — students describe what happened; AI reads the description and adjusts the severity if it sounds more serious than the rating given
+- **AI Safety Chat** — ask questions like "is it safe to walk near SCSIT right now?" and get answers grounded in real, current campus data
+- **Admin Dashboard** — live charts, SOS history, and an AI-generated safety briefing
+- **Student Profile** — manage guardian contact and view personal alert/report history
+
+## How the AI Works
+
+CampusSafe implements three AI concepts, all running fully offline through a local language model:
+
+**1. Sentiment Analysis**
+TextBlob reads every incident description and scores how serious the language sounds. The higher of this AI score and the student's own severity rating is always used, so a report is never under-rated just because a student minimized it while describing it.
+
+**2. Retrieval-based Search (RAG)**
+Incident reports are converted into 768-number vector embeddings using Ollama's `nomic-embed-text` model, stored in a plain JSON file, and compared using cosine similarity computed with NumPy. This finds relevant past incidents by *meaning*, not just matching keywords.
+
+This was originally built with ChromaDB, a dedicated vector database. Isolated testing traced a hard, unrecoverable process crash to ChromaDB's native `hnswlib` indexing library on Windows — reproducible even with a minimal test vector, unrelated to any of our own application code. Rather than depend on an unstable library, the same retrieval concept was rebuilt from scratch using a JSON file and a hand-written cosine similarity function, giving full control and a fully understood, stable implementation.
+
+**3. Agent-style Tool Routing**
+Before answering, the AI decides whether a question is about a specific zone's current status or about past incidents, and pulls the relevant live data accordingly before generating its response.
+
+All AI runs locally through [Ollama](https://ollama.com) — no external API calls, no internet dependency, no cost.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Streamlit |
+| Database | SQLite |
+| AI Model | Ollama (qwen2.5:3b + nomic-embed-text) |
+| Maps | Folium + OpenStreetMap |
+| Sentiment | TextBlob |
+| Vector Search | NumPy (cosine similarity) |
+| Email Alerts | smtplib (Gmail) |
+| Charts | Plotly |
+| Location | streamlit-geolocation (browser GPS) |
+
+---
+
+## Project Structure
